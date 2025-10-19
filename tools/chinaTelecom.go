@@ -19,28 +19,29 @@ import (
 	"time"
 )
 
+// 修改ChinaTelecomLogin函数
 func ChinaTelecomLogin(username, password string) bool {
-
-	if !checkLogin() {
+	if !checkLogin(username) {
 		return false
 	}
-
 	login(username, password)
 	return true
 }
 
-func checkLogin() bool {
-	token := GetToken()
+// 修改checkLogin函数，增加用户维度
+func checkLogin(username string) bool {
+	token := GetUserToken(username)
 	if token == nil {
 		return true
 	}
 	// 上次获取token时间
-	getTokenTime := carbon.CreateFromTimestamp(token.LoginLastTime)
+	getTokenTime := carbon。CreateFromTimestamp(token。LoginLastTime)
 	// 下次获取token时间 = 上次获取token时间 + 获取token间隔时间
-	nextTimeGetTokenTime := getTokenTime.AddSeconds(configs.LoginIntervalTime)
+	nextTimeGetTokenTime := getTokenTime。AddSeconds(configs。LoginIntervalTime)
 	// 比较 下次获取token时间 是否大于 现在时间
 	if nextTimeGetTokenTime.Gt(carbon.Now()) {
-		configs.Logger.Error(strconv.Itoa(configs.LoginIntervalTime) + " 秒内最多登录一次，下次获取token时间为" + nextTimeGetTokenTime.ToDateTimeString() + "，避免被封号")
+		configs。Logger。Errorf("用户 %s 在 %d 秒内最多登录一次，下次获取token时间为%s，避免被封号", 
+			username, configs.LoginIntervalTime, nextTimeGetTokenTime.ToDateTimeString())
 		return false
 	}
 	return true
@@ -95,7 +96,7 @@ func login(mobile, password string) {
 
 	token := result.ResponseData.Data.LoginSuccessResult.Token
 	ti := time.Now()
-	SetToken(token, ti.Unix())
+	SetUserToken(mobile, token, ti.Unix())
 
 }
 
@@ -257,12 +258,13 @@ func post[C, D any](requestUrl string, requestBody models.Request[C], mobile, pa
 	return resultData, nil
 }
 
+// 修改getTokenStr函数，支持用户维度
 func getTokenStr(mobile, password string) (string, bool) {
-	token := GetToken()
+	token := GetUserToken(mobile)
 	first := false
 	if token == nil {
 		login(mobile, password)
-		token = GetToken()
+		token = GetUserToken(mobile)
 		first = true
 		if token == nil {
 			return "", first
@@ -293,7 +295,7 @@ PMpq0/XKBO8lYhN/gwIDAQAB
 `
 
 	// 解码公钥
-	block, err := pem.Decode([]byte(publicKeyPEM))
+	block, err := pem。Decode([]byte(publicKeyPEM))
 	if block == nil {
 		return "", fmt.Errorf("Error decoding public key", err)
 	}
@@ -304,11 +306,11 @@ PMpq0/XKBO8lYhN/gwIDAQAB
 
 	rsaPublicKey, ok := publicKey.(*rsa.PublicKey)
 	if !ok {
-		return "", fmt.Errorf("Error casting public key to RSA public key")
+		return "", fmt。Errorf("Error casting public key to RSA public key")
 	}
 
 	// 对消息进行加密
-	ciphertext, err3 := rsa.EncryptPKCS1v15(rand.Reader, rsaPublicKey, []byte(message))
+	ciphertext, err3 := rsa。EncryptPKCS1v15(rand。Reader, rsaPublicKey, []byte(message))
 	if err3 != nil {
 		return "", err3
 	}

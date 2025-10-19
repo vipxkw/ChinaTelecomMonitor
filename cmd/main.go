@@ -21,8 +21,10 @@ var GitCommit = "not set"
 var BuildTime = "not set"
 
 func main() {
-
 	initFlag()
+	// 新增：从环境变量加载配置，环境变量会覆盖命令行参数
+	configs.LoadFromEnv()
+	
 	if configs.PrintVersion {
 		version()
 		return
@@ -35,10 +37,7 @@ func main() {
 	}
 
 	initCron()
-
-	// 初始化流量获取
 	go cronSummary()
-
 	initIris()
 }
 

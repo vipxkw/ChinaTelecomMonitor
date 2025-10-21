@@ -1,7 +1,7 @@
 package tools
 
 import (
-	"ChinaTelecomMonitor/configs"
+	"China_Telecom_Monitor/configs"
 	"encoding/json"
 	"os"
 	"path/filepath"
@@ -15,15 +15,15 @@ type Token struct {
 
 // 获取用户Token文件路径
 func getUserTokenPath(username string) string {
-	return filepath。Join(configs。DataPath, "tokens", username+".json")
+	return filepath.Join(configs.DataPath, "tokens", username+".json")
 }
 
 // GetUserToken 获取指定用户的Token
 func GetUserToken(username string) *Token {
 	path := getUserTokenPath(username)
-	data, err := os。ReadFile(path)
+	data, err := os.ReadFile(path)
 	if err != nil {
-		configs。Logger.Debugf("用户 %s 未找到Token文件: %v", username, err)
+		configs.Logger.Debugf("用户 %s 未找到Token文件: %v", username, err)
 		return nil
 	}
 

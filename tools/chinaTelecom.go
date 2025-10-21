@@ -14,7 +14,6 @@ import (
 	"io"
 	"math/big"
 	"net/http"
-	"strconv"
 	"strings"
 	"time"
 )
@@ -35,12 +34,12 @@ func checkLogin(username string) bool {
 		return true
 	}
 	// 上次获取token时间
-	getTokenTime := carbon。CreateFromTimestamp(token。LoginLastTime)
+	getTokenTime := carbon.CreateFromTimestamp(token.LoginLastTime)
 	// 下次获取token时间 = 上次获取token时间 + 获取token间隔时间
-	nextTimeGetTokenTime := getTokenTime。AddSeconds(configs。LoginIntervalTime)
+	nextTimeGetTokenTime := getTokenTime.AddSeconds(configs.LoginIntervalTime)
 	// 比较 下次获取token时间 是否大于 现在时间
 	if nextTimeGetTokenTime.Gt(carbon.Now()) {
-		configs。Logger。Errorf("用户 %s 在 %d 秒内最多登录一次，下次获取token时间为%s，避免被封号", 
+		configs.Logger.Errorf("用户 %s 在 %d 秒内最多登录一次，下次获取token时间为%s，避免被封号", 
 			username, configs.LoginIntervalTime, nextTimeGetTokenTime.ToDateTimeString())
 		return false
 	}
@@ -295,7 +294,7 @@ PMpq0/XKBO8lYhN/gwIDAQAB
 `
 
 	// 解码公钥
-	block, err := pem。Decode([]byte(publicKeyPEM))
+	block, err := pem.Decode([]byte(publicKeyPEM))
 	if block == nil {
 		return "", fmt.Errorf("Error decoding public key", err)
 	}
@@ -306,11 +305,11 @@ PMpq0/XKBO8lYhN/gwIDAQAB
 
 	rsaPublicKey, ok := publicKey.(*rsa.PublicKey)
 	if !ok {
-		return "", fmt。Errorf("Error casting public key to RSA public key")
+		return "", fmt.Errorf("Error casting public key to RSA public key")
 	}
 
 	// 对消息进行加密
-	ciphertext, err3 := rsa。EncryptPKCS1v15(rand。Reader, rsaPublicKey, []byte(message))
+	ciphertext, err3 := rsa.EncryptPKCS1v15(rand.Reader, rsaPublicKey, []byte(message))
 	if err3 != nil {
 		return "", err3
 	}

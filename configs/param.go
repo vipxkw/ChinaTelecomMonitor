@@ -17,7 +17,7 @@ var (
 	Dev               bool          // 开发模式
 	PrintVersion      bool          // 显示版本信息
 	ClientVersion     string        // 客户端版本
-	Logger            *zap。SugaredLogger // 日志实例
+	Logger            *zap.SugaredLogger // 日志实例
 	ApiKey            string        // API访问密钥(新增)
 )
 

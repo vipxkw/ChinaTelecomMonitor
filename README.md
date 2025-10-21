@@ -1,5 +1,33 @@
 # ChinaTelecomMonitor 
 
+原项目：https://github.com/LambdaExpression/ChinaTelecomMonitor
+
+在原项目修改为使用url闯入参数，增加KEY验证，防止被滥用。
+
+打包成docker更方便。
+
+部署：
+```
+//ARM架构
+docker run -d \
+  --name china-telecom-monitor \
+  -p 8080:8080 \
+  -v $(pwd)/tokens:/app/data/tokens \
+  -e TZ=Asia/Shanghai \
+  vipiu/china-telecom-monitor:arm1.2 \
+  --apiKey=xxxxx
+
+//AMD架构
+docker run -d \
+  --name china-telecom-monitor \
+  -p 8080:8080 \
+  -v $(pwd)/tokens:/app/data/tokens \
+  -e TZ=Asia/Shanghai \
+  vipiu/china-telecom-monitor:amd1.2 \
+  --apiKey=xxxxx
+```
+
+使用http(s)://ip（或是域名）/show/flow?key=秘钥&username=手机号码&password=服务密码
 
 
 **中国电信 手机话费、流量、语音通话监控**

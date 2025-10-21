@@ -2,7 +2,7 @@
 
 原项目：https://github.com/LambdaExpression/ChinaTelecomMonitor
 
-在原项目修改为使用url闯入参数，增加KEY验证，防止被滥用。
+在原项目修改为使用url传入参数，增加KEY验证，防止被滥用。
 
 打包成docker更方便。
 

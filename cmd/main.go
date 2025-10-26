@@ -58,10 +58,14 @@ func initFlag() {
 	flag.IntVar(&configs.LoginIntervalTime, "loginIntervalTime", 43200, "--loginIntervalTime 43200 #电信登录间隔时间（防止被封号），秒")
 	flag.Int64Var(&configs.TimeOut, "timeOut", 30, "--timeOut 30 #访问电信接口请求超时时间，秒")
 	flag.IntVar(&configs.IntervalsTime, "intervalsTime", 180, "--intervalsTime 180 #接口防止重刷时间")
+
 	flag.StringVar(&configs.LogLevel, "logLevel", "info", "--logLevel info # 日志等级")
 	flag.StringVar(&configs.LogEncoding, "logEncoding", "console", "--logEncoding console # 日志输出格式 console 或 json")
+
 	flag.StringVar(&configs.DataPath, "dataPath", "./data", "--dataPath ./data # 数据日志文件保存路径")
+
 	flag.StringVar(&configs.ClientVersion, "clientVersion", "12.2.0", "--clientVersion '12.2.0' # 登录电信客户端版本(电信会限制过低的版本无法进行登录)")
+
 	flag.BoolVar(&configs.Dev, "dev", false, "--dev false # 开发模式,开启后将支持以下接口： /refresh 手动更新流量 和 /show/qryImportantData /show/userFluxPackage 这里两个电信接口")
 	flag.BoolVar(&configs.PrintVersion, "version", false, "--version 打印程序构建版本")
 
